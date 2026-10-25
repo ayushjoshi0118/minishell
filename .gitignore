@@ -1,0 +1,23 @@
+# Binaries and object files
+*.o
+*.obj
+*.exe
+minishell
+minishell.exe
+
+# Build artifacts
+build/
+bin/
+*.dSYM/
+test_*_tmp*
+*.tmp
+*.log
+
+# History files
+.minishell_history
+
+# Editor / OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

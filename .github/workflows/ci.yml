@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build-and-test:
+    name: Build & Test (Ubuntu Linux)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install build prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libreadline-dev
+
+      - name: Compile MiniShell (Standard Build)
+        run: |
+          make clean
+          make
+
+      - name: Verify Executable Permissions
+        run: |
+          chmod +x minishell
+          ./minishell -v
+          ./minishell --help
+
+      - name: Run Test Suite
+        run: |
+          bash tests/run_tests.sh
+
+      - name: Compile and Test with Sanitizers (ASan & UBSan)
+        run: |
+          make sanitize
+          chmod +x minishell
+          bash tests/run_tests.sh
